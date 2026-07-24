@@ -1,0 +1,59 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { db } from '../../db/client';
+import { formSubmissions } from '../../db/schema';
+import { desc } from 'drizzle-orm';
+
+let submissions: any[] = [];
+let loadError: string | null = null;
+
+try {
+  submissions = await db.select().from(formSubmissions).orderBy(desc(formSubmissions.createdAt)).limit(200);
+} catch (err) {
+  loadError = err instanceof Error ? err.message : 'Failed to load submissions';
+}
+
+const formTypeStyles: Record<string, string> = {
+  'Inner Circle': 'bg-[#B89B65]/20 text-[#B89B65]',
+  Contact: 'bg-blue-500/20 text-blue-300',
+  Events: 'bg-purple-500/20 text-purple-300',
+};
+---
+<AdminLayout title="Dashboard">
+  <h1 class="text-2xl font-semibold mb-2">Form Submissions</h1>
+  <p class="text-[#F9F9F6]/60 text-sm mb-8">Most recent 200 submissions across all forms (Inner Circle, Contact, Events).</p>
+
+  {loadError && (
+    <div class="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-sm mb-6 text-sm">
+      Couldn't load submissions: {loadError}
+    </div>
+  )}
+
+  <div class="space-y-4">
+    {submissions.length === 0 && !loadError && (
+      <p class="text-[#F9F9F6]/50 text-sm">No submissions yet.</p>
+    )}
+
+    {submissions.map((s) => (
+      <div class="border border-[#2A2A2A] rounded-sm p-5 bg-[#111111]">
+        <div class="flex items-center justify-between mb-3">
+          <span class={`text-xs px-2 py-1 rounded-sm uppercase tracking-wide ${formTypeStyles[s.formType] || 'bg-[#2A2A2A] text-[#F9F9F6]/70'}`}>
+            {s.formType}
+          </span>
+          <span class="text-xs text-[#F9F9F6]/40">{new Date(s.createdAt).toLocaleString('en-CA')}</span>
+        </div>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+          {Object.entries(s.payload as Record<string, string>)
+            .filter(([key]) => !['form_type', 'g-recaptcha-response', 'subject'].includes(key))
+            .map(([key, value]) => (
+              <div>
+                <dt class="text-[#F9F9F6]/40 text-xs uppercase tracking-wide">{key.replace(/_/g, ' ')}</dt>
+                <dd class="text-[#F9F9F6] break-words">{String(value) || '—'}</dd>
+              </div>
+            ))}
+        </dl>
+      </div>
+    ))}
+  </div>
+</AdminLayout>

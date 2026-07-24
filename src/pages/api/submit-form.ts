@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
+import { db } from '../../db/client';
+import { formSubmissions } from '../../db/schema';
 
 export const prerender = false;
 
@@ -57,23 +59,36 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ ok: false, error: 'reCAPTCHA verification failed' }), { status: 403 });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: import.meta.env.SMTP_HOST,
-      port: Number(import.meta.env.SMTP_PORT),
-      secure: import.meta.env.SMTP_SECURE === 'true',
-      auth: {
-        user: import.meta.env.SMTP_USER,
-        pass: import.meta.env.SMTP_PASS,
-      },
+    // Persist first — this is the source of truth for the admin dashboard,
+    // so a submission must be saved even if the notification email fails.
+    await db.insert(formSubmissions).values({
+      formType,
+      payload: fields,
     });
 
-    await transporter.sendMail({
-      from: `"Castellano's Ristorante" <${import.meta.env.SMTP_USER}>`,
-      to: RECIPIENT,
-      replyTo: email,
-      subject: SUBJECTS[formType] || SUBJECTS.Contact,
-      text: renderBody(formType, fields),
-    });
+    // Best-effort notification email: never let a broken mail server fail
+    // a form submission that's already been safely recorded above.
+    try {
+      const transporter = nodemailer.createTransport({
+        host: import.meta.env.SMTP_HOST,
+        port: Number(import.meta.env.SMTP_PORT),
+        secure: import.meta.env.SMTP_SECURE === 'true',
+        auth: {
+          user: import.meta.env.SMTP_USER,
+          pass: import.meta.env.SMTP_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: `"Castellano's Ristorante" <${import.meta.env.SMTP_USER}>`,
+        to: RECIPIENT,
+        replyTo: email,
+        subject: SUBJECTS[formType] || SUBJECTS.Contact,
+        text: renderBody(formType, fields),
+      });
+    } catch (mailErr) {
+      console.error('submit-form: notification email failed (submission was still saved):', mailErr);
+    }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
@@ -81,7 +96,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   } catch (err) {
     console.error('submit-form error:', err);
-    return new Response(JSON.stringify({ ok: false, error: 'Failed to send email' }), {
+    return new Response(JSON.stringify({ ok: false, error: 'Failed to save submission' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

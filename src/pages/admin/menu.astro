@@ -1,0 +1,181 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { db } from '../../db/client';
+import { menuItems } from '../../db/schema';
+import { asc } from 'drizzle-orm';
+
+const SECTIONS = [
+  { key: 'antipasti', label: 'Insalate & Antipasti' },
+  { key: 'pizze', label: 'Pizze' },
+  { key: 'pasta', label: 'Pasta & Risotto' },
+  { key: 'mains', label: 'The Mains' },
+  { key: 'desserts', label: 'Desserts' },
+];
+
+let allItems: any[] = [];
+let loadError: string | null = null;
+
+try {
+  allItems = await db.select().from(menuItems).orderBy(asc(menuItems.section), asc(menuItems.sortOrder));
+} catch (err) {
+  loadError = err instanceof Error ? err.message : 'Failed to load menu items';
+}
+---
+<AdminLayout title="Menu Editor">
+  <div class="flex items-center justify-between mb-2">
+    <h1 class="text-2xl font-semibold">Menu Editor</h1>
+    <a href="/menu" target="_blank" class="text-sm text-[#B89B65] hover:underline">View live menu →</a>
+  </div>
+  <p class="text-[#F9F9F6]/60 text-sm mb-8">Changes here go live on the public /menu page immediately. Inactive items are hidden from the public site but kept here for easy re-enabling.</p>
+
+  {loadError && (
+    <div class="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-sm mb-6 text-sm">
+      Couldn't load menu items: {loadError}
+    </div>
+  )}
+
+  {SECTIONS.map((section) => {
+    const items = allItems.filter((i) => i.section === section.key);
+    return (
+      <section class="mb-14">
+        <h2 class="text-lg font-semibold text-[#B89B65] mb-4 border-b border-[#2A2A2A] pb-2">{section.label}</h2>
+
+        <div class="space-y-3">
+          {items.map((item) => (
+            <details class={`border border-[#2A2A2A] rounded-sm bg-[#111111] ${item.isActive ? '' : 'opacity-50'}`}>
+              <summary class="cursor-pointer px-4 py-3 flex items-center justify-between gap-4 select-none">
+                <span class="flex items-center gap-3 min-w-0">
+                  {item.subheading && <span class="text-xs text-[#F9F9F6]/40 uppercase tracking-wide flex-shrink-0">{item.subheading}</span>}
+                  <span class="font-medium truncate">{item.name}</span>
+                  {!item.isActive && <span class="text-xs text-red-300 flex-shrink-0">(hidden)</span>}
+                </span>
+                <span class="text-[#B89B65] flex-shrink-0">${item.price}</span>
+              </summary>
+
+              <div class="px-4 pb-4 pt-2 border-t border-[#2A2A2A]">
+                <form method="POST" action="/api/admin/menu-items" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <input type="hidden" name="_action" value="update" />
+                  <input type="hidden" name="id" value={item.id} />
+                  <input type="hidden" name="_redirect" value="/admin/menu" />
+
+                  <label class="text-sm md:col-span-2">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Section</span>
+                    <select name="section" class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm">
+                      {SECTIONS.map((s) => (
+                        <option value={s.key} selected={s.key === item.section}>{s.label}</option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label class="text-sm">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Subheading (optional group label)</span>
+                    <input type="text" name="subheading" value={item.subheading ?? ''} class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+                  </label>
+
+                  <label class="text-sm">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Sort order</span>
+                    <input type="number" name="sortOrder" value={item.sortOrder} class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+                  </label>
+
+                  <label class="text-sm">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Name</span>
+                    <input type="text" name="name" value={item.name} required class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+                  </label>
+
+                  <label class="text-sm">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Price</span>
+                    <input type="text" name="price" value={item.price} required class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+                  </label>
+
+                  <label class="text-sm md:col-span-2">
+                    <span class="block text-xs text-[#F9F9F6]/50 mb-1">Description</span>
+                    <textarea name="description" rows="2" class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm">{item.description ?? ''}</textarea>
+                  </label>
+
+                  <label class="text-sm flex items-center gap-2">
+                    <input type="checkbox" name="isNote" checked={item.isNote} />
+                    <span class="text-xs text-[#F9F9F6]/50">Render as footnote (e.g. "* Gluten Free Available") instead of a normal item</span>
+                  </label>
+
+                  <div class="md:col-span-2 flex items-center gap-3 pt-2">
+                    <button type="submit" class="bg-[#B89B65] text-[#080808] px-4 py-2 rounded-sm text-sm font-medium hover:bg-[#F9F9F6] transition-colors">
+                      Save changes
+                    </button>
+                  </div>
+                </form>
+
+                <div class="flex items-center gap-3 mt-3 pt-3 border-t border-[#2A2A2A]">
+                  <form method="POST" action="/api/admin/menu-items">
+                    <input type="hidden" name="_action" value="toggle-active" />
+                    <input type="hidden" name="id" value={item.id} />
+                    <input type="hidden" name="isActive" value={String(item.isActive)} />
+                    <input type="hidden" name="_redirect" value="/admin/menu" />
+                    <button type="submit" class="text-sm text-[#F9F9F6]/70 hover:text-[#F9F9F6] underline">
+                      {item.isActive ? 'Hide from public menu' : 'Show on public menu'}
+                    </button>
+                  </form>
+                  <form method="POST" action="/api/admin/menu-items" onsubmit="return confirm('Delete this item permanently?')">
+                    <input type="hidden" name="_action" value="delete" />
+                    <input type="hidden" name="id" value={item.id} />
+                    <input type="hidden" name="_redirect" value="/admin/menu" />
+                    <button type="submit" class="text-sm text-red-400 hover:text-red-300 underline">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </details>
+          ))}
+
+          {items.length === 0 && <p class="text-sm text-[#F9F9F6]/40">No items in this section yet.</p>}
+        </div>
+
+        <details class="mt-4 border border-dashed border-[#2A2A2A] rounded-sm">
+          <summary class="cursor-pointer px-4 py-3 text-sm text-[#B89B65]">+ Add item to {section.label}</summary>
+          <div class="px-4 pb-4 pt-2">
+            <form method="POST" action="/api/admin/menu-items" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <input type="hidden" name="_action" value="create" />
+              <input type="hidden" name="section" value={section.key} />
+              <input type="hidden" name="_redirect" value="/admin/menu" />
+
+              <label class="text-sm">
+                <span class="block text-xs text-[#F9F9F6]/50 mb-1">Subheading (optional group label)</span>
+                <input type="text" name="subheading" class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+              </label>
+
+              <label class="text-sm">
+                <span class="block text-xs text-[#F9F9F6]/50 mb-1">Sort order</span>
+                <input type="number" name="sortOrder" value="0" class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+              </label>
+
+              <label class="text-sm">
+                <span class="block text-xs text-[#F9F9F6]/50 mb-1">Name</span>
+                <input type="text" name="name" required class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+              </label>
+
+              <label class="text-sm">
+                <span class="block text-xs text-[#F9F9F6]/50 mb-1">Price</span>
+                <input type="text" name="price" required class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+              </label>
+
+              <label class="text-sm md:col-span-2">
+                <span class="block text-xs text-[#F9F9F6]/50 mb-1">Description</span>
+                <textarea name="description" rows="2" class="w-full bg-[#080808] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm"></textarea>
+              </label>
+
+              <label class="text-sm flex items-center gap-2">
+                <input type="checkbox" name="isNote" />
+                <span class="text-xs text-[#F9F9F6]/50">Render as footnote instead of a normal item</span>
+              </label>
+
+              <div class="md:col-span-2">
+                <button type="submit" class="bg-[#B89B65] text-[#080808] px-4 py-2 rounded-sm text-sm font-medium hover:bg-[#F9F9F6] transition-colors">
+                  Add item
+                </button>
+              </div>
+            </form>
+          </div>
+        </details>
+      </section>
+    );
+  })}
+</AdminLayout>

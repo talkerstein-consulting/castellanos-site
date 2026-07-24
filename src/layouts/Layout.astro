@@ -5,11 +5,17 @@ export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
 }
 const {
   title,
   description = "Vaughan's newest refined Italian piano bar ristorante — authentic cuisine, curated cocktails, and an atmosphere of understated luxury.",
   ogImage = '/media/tableside-fish-service.webp',
+  ogImageAlt = "Castellano's Ristorante",
+  ogImageWidth,
+  ogImageHeight,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://castellanosristorante.ca');
@@ -37,11 +43,15 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://castellanosristorante
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  {ogImageWidth && <meta property="og:image:width" content={ogImageWidth} />}
+  {ogImageHeight && <meta property="og:image:height" content={ogImageHeight} />}
   <meta property="og:url" content={canonicalURL} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content={ogImageAlt} />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

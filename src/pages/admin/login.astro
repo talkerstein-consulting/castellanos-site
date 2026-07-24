@@ -1,0 +1,42 @@
+---
+export const prerender = false;
+import { getSession } from 'auth-astro/server';
+
+// If already signed in (and allowed), skip straight to the dashboard.
+const session = await getSession(Astro.request);
+if (session?.user) {
+  return Astro.redirect('/admin');
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <title>Sign In | Castellano's Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #080808; color: #F9F9F6; font-family: system-ui, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+  <div class="text-center space-y-6">
+    <h1 class="text-2xl font-semibold text-[#B89B65]">Castellano's Admin</h1>
+    <p class="text-[#F9F9F6]/70 text-sm">Sign in with an authorized Google account to continue.</p>
+    <button id="google-signin" class="bg-[#B89B65] text-[#080808] px-6 py-3 rounded-sm font-medium hover:bg-[#F9F9F6] transition-colors">
+      Sign in with Google
+    </button>
+    <p id="signin-error" class="text-red-400 text-sm hidden">Access denied — this Google account isn't authorized.</p>
+  </div>
+  <script>
+    import { signIn } from 'auth-astro/client';
+    document.getElementById('google-signin')?.addEventListener('click', () => signIn('google', { callbackUrl: '/admin' }));
+
+    if (new URLSearchParams(window.location.search).get('error')) {
+      document.getElementById('signin-error')?.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

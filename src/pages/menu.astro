@@ -1,6 +1,30 @@
 ---
-export const prerender = true;
 import Layout from '../layouts/Layout.astro';
+import MenuItemList from '../components/MenuItemList.astro';
+import { db } from '../db/client';
+import { menuItems } from '../db/schema';
+import { and, eq, asc } from 'drizzle-orm';
+
+// Dynamic (DB-backed) so the admin menu editor's changes show up immediately —
+// this page can no longer be prerendered as static HTML.
+export const prerender = false;
+
+let itemsBySection: Record<string, any[]> = { antipasti: [], pizze: [], pasta: [], mains: [], desserts: [] };
+
+try {
+  const rows = await db
+    .select()
+    .from(menuItems)
+    .where(eq(menuItems.isActive, true))
+    .orderBy(asc(menuItems.section), asc(menuItems.sortOrder));
+
+  for (const row of rows) {
+    if (!itemsBySection[row.section]) itemsBySection[row.section] = [];
+    itemsBySection[row.section].push(row);
+  }
+} catch (err) {
+  console.error('Failed to load menu items from DB:', err);
+}
 ---
 <Layout
   title="Menu | Castellano's Ristorante Vaughan"
@@ -86,88 +110,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="w-full md:w-1/2 min-h-screen bg-[#0A0A0A] px-8 py-24 md:px-16 lg:px-24 flex flex-col justify-center relative z-10">
-            <div class="max-w-xl mx-auto w-full space-y-16">
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Antipasti</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Focaccia e Olive</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">12</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Homemade golden and airy Italian flatbread with marinated olives.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Fritto Misto</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">30</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Fried calamari and shrimp dusted with corn flour and Castellano's seasoning, naturally gluten-free.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Crudo di Polipo</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">30</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Thinly sliced octopus with capers, sun-dried black olives in a lemon extra virgin olive oil dressing.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Carpaccio di Manzo</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">28</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Thinly sliced AAA beef tenderloin seasoned with peppercorns and Castellano's herbs, arugula and parmigiano shavings in a lemon extra virgin olive oil dressing.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Burrata e Prosciutto</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">28</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Prosciutto di Parma, arugula and heirloom cherry tomatoes with creamy burrata.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Ostriche del Giorno</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">22</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Chef's selection of a half-dozen fresh coastal oysters.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group pt-8 mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Insalate</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Indivia</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">22</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Crisp endive, crunchy pancetta and raspberries in a white balsamic vinaigrette.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Cesare</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">18</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Romaine hearts, smoked bacon, herb croutons and shaved parmigiano in Castellano's creamy garlic dressing.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Dal Campo</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">16</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Mixed greens, arugula, romaine, julienne fennel, carrots, cucumbers in a red vinaigrette dressing.</p>
-                </div>
-            </div>
+            <MenuItemList items={itemsBySection.antipasti} />
         </div>
     </section>
 
@@ -186,64 +129,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="w-full md:w-1/2 min-h-screen bg-[#080808] px-8 py-24 md:px-16 lg:px-24 flex flex-col justify-center relative z-10">
-            <div class="max-w-xl mx-auto w-full space-y-16">
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Pizza Aragosta</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">35</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Lobster, fior di latte, roasted garlic and fresh chives.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Bresaola e Rugola</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">26</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Dry salted beef, arugula, cherry tomatoes and parmigiano shavings.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Prosciutto e Fichi</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">28</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Prosciutto, fresh figs, walnuts and honey.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Cinghiale al Tartufo</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">30</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Wild boar sausage, porcini mushrooms and black truffles.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Mortadella e Pistacchio</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">28</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Mortadella, shreds of burrata and roasted pistachio.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Pizza Wagyu</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">40</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Wagyu beef, heirloom cherry tomatoes and bufala cheese.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Bufalina</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">25</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Tomato sauce, bufala mozzarella and fresh basil.</p>
-                </div>
-            </div>
+            <MenuItemList items={itemsBySection.pizze} />
         </div>
     </section>
 
@@ -262,61 +148,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="w-full md:w-1/2 min-h-screen bg-[#0A0A0A] px-8 py-24 md:px-16 lg:px-24 flex flex-col justify-center relative z-10">
-            <div class="max-w-xl mx-auto w-full space-y-16">
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Pasta</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Mezzelune al Brasato di Manzo</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">26</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Handmade half-moon pasta filled with short rib, ricotta and fior di latte in a light rosé sauce.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Spaghettoni alla Nerano</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">27</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Thick artisanal spaghetti tossed in a velvet smooth reduction of flash-fried zucchini and parmigiano.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Pescatore</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">35</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Linguine with mussels, clams, calamari and shrimp in a light cherry tomato sauce.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Scialatelli alla Siciliana</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">26</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Fresh handmade Neapolitan pasta ribbons with caramelized eggplant, fior di latte and basil in a San Marzano tomato sauce.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group pt-8 mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Risotto</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Risotto ai Porcini con cestino di Grano</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">30</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Creamy carnaroli rice infused with wild porcini mushrooms and finished with black truffle nectar served in a hand-sculpted parmigiano reggiano basket.</p>
-                </div>
-
-                <div class="pt-8 border-t border-[#4A4A4A] flex justify-between items-baseline">
-                    <p class="text-[#B89B65] font-instrument-sans text-xs uppercase tracking-widest italic">* Gluten Free Available</p>
-                    <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">5</span>
-                </div>
-            </div>
+            <MenuItemList items={itemsBySection.pasta} />
         </div>
     </section>
 
@@ -335,120 +167,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="w-full md:w-1/2 min-h-screen bg-[#080808] px-8 py-24 md:px-16 lg:px-24 flex flex-col justify-center relative z-10">
-            <div class="max-w-xl mx-auto w-full space-y-16">
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">La Carne</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Bauletto di Vitello</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">45</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Milk-fed veal, stuffed with fontina cheese, prosciutto, mushrooms, in a red pepper sauce. Served with roasted potatoes.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Supreme di Pollo alle Erbe</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">38</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">8 oz roasted chicken supreme dusted with Castellano's herbs. Served with roasted potatoes and seasonal vegetables.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Filetto di Manzo al Pepe Verde</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">56</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">8oz AAA beef tenderloin topped with green peppercorn sauce. Served with mashed potatoes and broccolini.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Costolette di Agnello</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">60</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Four grilled Ontario lamb chops. Served with supplì di riso and asparagus spears.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Bistecca alla Griglia</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">65</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">12oz Prime New York Striploin. Served with potato N'duja croquettes and balsamic glazed Brussels sprouts.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group pt-8 mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Pesce</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Spigola alla Griglia</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">45</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Grilled whole Mediterranean sea bass. Served with seasonal vegetables and roasted potatoes.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Orata Acqua Pazza</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">47</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Fresh sea bream poached in light aromatic broth with cherry tomatoes, garlic, white wine, herbs and extra virgin olive oil.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Grigliata Mista di Pesce</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">80</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">Mixed grilled seafood: sea bass, salmon, shrimp, calamari and lobster tails. Served with an extra virgin olive oil dressing, portioned for two.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group pt-8 mb-8">
-                    <h3 class="font-playfair italic text-3xl md:text-4xl text-[#B89B65] border-b border-[#4A4A4A]/50 pb-4">Sides</h3>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Baked Oyster Mushrooms</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Asparagus Spears</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Sautéed Broccolini</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 400ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Roasted Balsamic Glazed Brussels Sprouts</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 500ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Rapini</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-
-            </div>
+            <MenuItemList items={itemsBySection.mains} />
         </div>
     </section>
 
@@ -467,38 +186,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="w-full md:w-1/2 min-h-screen bg-[#0A0A0A] px-8 py-24 md:px-16 lg:px-24 flex flex-col justify-center relative z-10">
-            <div class="max-w-xl mx-auto w-full space-y-16">
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Crème Brûlée</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">12</span>
-                    </div>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 100ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Panna Cotta</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">12</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">With mixed berry compote.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 200ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Chocolate Lava Cake</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">14</span>
-                    </div>
-                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed pr-12">With vanilla gelato.</p>
-                </div>
-
-                <div class="scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out group" style="transition-delay: 300ms;">
-                    <div class="flex justify-between items-baseline mb-3 border-b border-[#4A4A4A]/50 pb-2">
-                        <h4 class="font-playfair text-3xl md:text-4xl tracking-wide text-[#F9F9F6] group-hover:text-[#B89B65] transition-colors">Tiramisu</h4>
-                        <span class="font-instrument-sans text-[#B89B65] text-xl tracking-widest pl-4">10</span>
-                    </div>
-                </div>
-            </div>
+            <MenuItemList items={itemsBySection.desserts} />
         </div>
     </section>
 
@@ -569,5 +257,4 @@ document.addEventListener("DOMContentLoaded", () => {
     menuSections.forEach(section => sectionObserver.observe(section));
 });
 </script>
-
 </Layout>
