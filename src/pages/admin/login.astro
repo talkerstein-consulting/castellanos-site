@@ -21,21 +21,87 @@ if (session?.user) {
     body { background-color: #080808; color: #F9F9F6; font-family: system-ui, sans-serif; }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
-  <div class="text-center space-y-6">
-    <h1 class="text-2xl font-semibold text-[#B89B65]">Castellano's Admin</h1>
-    <p class="text-[#F9F9F6]/70 text-sm">Sign in with an authorized Google account to continue.</p>
-    <button id="google-signin" class="bg-[#B89B65] text-[#080808] px-6 py-3 rounded-sm font-medium hover:bg-[#F9F9F6] transition-colors">
-      Sign in with Google
-    </button>
-    <p id="signin-error" class="text-red-400 text-sm hidden">Access denied — this Google account isn't authorized.</p>
+<body class="min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-sm space-y-8">
+    <div class="text-center">
+      <h1 class="text-2xl font-semibold text-[#B89B65]">Castellano's Admin</h1>
+    </div>
+
+    <div class="space-y-4">
+      <button id="google-signin" class="w-full bg-[#B89B65] text-[#080808] px-6 py-3 rounded-sm font-medium hover:bg-[#F9F9F6] transition-colors">
+        Sign in with Google
+      </button>
+
+      <div class="flex items-center gap-3 text-[#F9F9F6]/40 text-xs uppercase tracking-wide">
+        <div class="flex-1 border-t border-[#2A2A2A]"></div>
+        <span>or</span>
+        <div class="flex-1 border-t border-[#2A2A2A]"></div>
+      </div>
+
+      <form id="credentials-form" class="space-y-3">
+        <div>
+          <label class="block text-xs text-[#F9F9F6]/50 mb-1">Email</label>
+          <input type="email" name="email" required class="w-full bg-[#111111] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs text-[#F9F9F6]/50 mb-1">Password</label>
+          <input type="password" name="password" required class="w-full bg-[#111111] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
+        </div>
+        <button type="submit" id="credentials-submit" class="w-full border border-[#B89B65] text-[#B89B65] px-6 py-3 rounded-sm font-medium hover:bg-[#B89B65] hover:text-[#080808] transition-colors">
+          Sign in
+        </button>
+      </form>
+
+      <div class="text-center">
+        <a href="/admin/forgot-password" class="text-xs text-[#F9F9F6]/50 hover:text-[#F9F9F6] underline">Forgot password?</a>
+      </div>
+    </div>
+
+    <p id="signin-error" class="text-red-400 text-sm text-center hidden">Sign-in failed — check your credentials or account authorization.</p>
   </div>
+
   <script>
     import { signIn } from 'auth-astro/client';
+
     document.getElementById('google-signin')?.addEventListener('click', () => signIn('google', { callbackUrl: '/admin' }));
 
+    const form = document.getElementById('credentials-form');
+    const errorMsg = document.getElementById('signin-error');
+    const submitBtn = document.getElementById('credentials-submit');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg?.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+      }
+
+      const formData = new FormData(form);
+      // auth-astro's signIn(): with redirect:false, it returns the raw
+      // Response object ONLY when sign-in failed; on success it returns
+      // undefined (and has already set window.location.href itself).
+      const res = await signIn('credentials', {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        redirect: false,
+        callbackUrl: '/admin',
+      });
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+      }
+
+      if (res) {
+        errorMsg?.classList.remove('hidden');
+        return;
+      }
+      window.location.href = '/admin';
+    });
+
     if (new URLSearchParams(window.location.search).get('error')) {
-      document.getElementById('signin-error')?.classList.remove('hidden');
+      errorMsg?.classList.remove('hidden');
     }
   </script>
 </body>

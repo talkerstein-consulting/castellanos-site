@@ -22,3 +22,24 @@ export const formSubmissions = mysqlTable('form_submissions', {
   payload: json('payload').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+// Separate from Google's ADMIN_EMAILS allowlist — a distinct login method
+// with its own credential store.
+export const adminUsers = mysqlTable('admin_users', {
+  id: int('id').autoincrement().primaryKey(),
+  email: varchar('email', { length: 191 }).notNull().unique(),
+  // scrypt, format "saltHex:hashHex" — see src/lib/password.ts
+  passwordHash: varchar('password_hash', { length: 255 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const passwordResetTokens = mysqlTable('password_reset_tokens', {
+  id: int('id').autoincrement().primaryKey(),
+  email: varchar('email', { length: 191 }).notNull(),
+  // Only a hash of the token is stored — the raw token only ever exists in
+  // the emailed link, so a DB leak alone can't be used to reset a password.
+  tokenHash: varchar('token_hash', { length: 64 }).notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  usedAt: timestamp('used_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
