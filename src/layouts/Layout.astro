@@ -4,17 +4,44 @@ import '../styles/global.css';
 export interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
-const { title, description = "Castellano's Ristorante — Vaughan, ON" } = Astro.props;
+const {
+  title,
+  description = "Vaughan's newest refined Italian piano bar ristorante — authentic cuisine, curated cocktails, and an atmosphere of understated luxury.",
+  ogImage = '/media/tableside-fish-service.webp',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://castellanosristorante.ca');
+const ogImageURL = new URL(ogImage, Astro.site ?? 'https://castellanosristorante.ca');
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/webp" href="/favicon.webp" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
   <title>{title}</title>
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Castellano's Ristorante" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -5,6 +5,7 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://castellanosristorante.ca',
   output: 'server',
   adapter: node({
     mode: 'standalone'
