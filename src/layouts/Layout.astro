@@ -142,7 +142,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://castellanosristorante
   </nav>
 
   <!-- Mobile Nav Overlay -->
-  <div id="mobile-menu" class="fixed inset-0 bg-[#080808] z-[100] flex flex-col items-start justify-center px-8 md:px-16 transition-all duration-500 opacity-0 pointer-events-none lg:hidden">
+  <div id="mobile-menu" class="fixed inset-0 bg-[#080808] z-[45] flex flex-col items-start justify-center px-8 md:px-16 transition-all duration-500 opacity-0 pointer-events-none lg:hidden">
 
       <div class="flex flex-col items-start space-y-10 text-[#F9F9F6] text-2xl md:text-4xl font-instrument-sans font-medium tracking-[0.125em] uppercase z-10 relative">
           <a href="/" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">Home</a>
@@ -280,23 +280,27 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://castellanosristorante
       // --- Mobile Menu Logic ---
       const menuToggle = document.getElementById('menu-toggle');
       const mobileMenu = document.getElementById('mobile-menu');
-      const menuIcon = document.getElementById('menu-icon');
-      const closeIcon = document.getElementById('close-icon');
       const mobileLinks = document.querySelectorAll('.mobile-link');
       let isMenuOpen = false;
 
       function toggleMenu() {
+          // Query icons fresh each time: lucide.createIcons() replaces the
+          // original <i> placeholders with new <svg> nodes, so references
+          // captured before that call would go stale.
+          const menuIcon = document.getElementById('menu-icon');
+          const closeIcon = document.getElementById('close-icon');
+
           isMenuOpen = !isMenuOpen;
           if (isMenuOpen) {
               mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
               mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
-              menuIcon.classList.add('hidden');
-              closeIcon.classList.remove('hidden');
+              menuIcon?.classList.add('hidden');
+              closeIcon?.classList.remove('hidden');
           } else {
               mobileMenu.classList.add('opacity-0', 'pointer-events-none');
               mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-              menuIcon.classList.remove('hidden');
-              closeIcon.classList.add('hidden');
+              menuIcon?.classList.remove('hidden');
+              closeIcon?.classList.add('hidden');
           }
       }
 
