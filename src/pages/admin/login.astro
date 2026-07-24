@@ -16,48 +16,85 @@ if (session?.user) {
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <title>Sign In | Castellano's Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body { background-color: #080808; color: #F9F9F6; font-family: system-ui, sans-serif; }
+    body {
+      background-color: #080808;
+      color: #F9F9F6;
+      font-family: 'Instrument Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-instrument-serif { font-family: 'Instrument Serif', serif; }
+
+    .border-editorial {
+      border: 1px solid #B89B65;
+      position: relative;
+    }
+    .border-editorial::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(184, 155, 101, 0.3);
+      pointer-events: none;
+    }
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4">
-  <div class="w-full max-w-sm space-y-8">
-    <div class="text-center">
-      <h1 class="text-2xl font-semibold text-[#B89B65]">Castellano's Admin</h1>
+<body class="px-4 py-12">
+  <div class="w-full max-w-md">
+
+    <div class="text-center mb-10">
+      <img src="/wp-content/uploads/2026/05/CR-new-logo-scaled.webp" alt="Castellano's Ristorante" class="w-40 md:w-48 mx-auto object-contain mb-6" />
+      <p class="text-[#B89B65] text-xs tracking-[0.3em] uppercase font-instrument-sans">Admin Portal</p>
     </div>
 
-    <div class="space-y-4">
-      <button id="google-signin" class="w-full bg-[#B89B65] text-[#080808] px-6 py-3 rounded-sm font-medium hover:bg-[#F9F9F6] transition-colors">
-        Sign in with Google
-      </button>
+    <div class="bg-[#0A0A0A] border-editorial relative p-8 md:p-10">
+      <div class="absolute inset-0 bg-noise opacity-40 pointer-events-none"></div>
 
-      <div class="flex items-center gap-3 text-[#F9F9F6]/40 text-xs uppercase tracking-wide">
-        <div class="flex-1 border-t border-[#2A2A2A]"></div>
-        <span>or</span>
-        <div class="flex-1 border-t border-[#2A2A2A]"></div>
-      </div>
-
-      <form id="credentials-form" class="space-y-3">
-        <div>
-          <label class="block text-xs text-[#F9F9F6]/50 mb-1">Email</label>
-          <input type="email" name="email" required class="w-full bg-[#111111] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
-        </div>
-        <div>
-          <label class="block text-xs text-[#F9F9F6]/50 mb-1">Password</label>
-          <input type="password" name="password" required class="w-full bg-[#111111] border border-[#2A2A2A] rounded-sm px-3 py-2 text-sm" />
-        </div>
-        <button type="submit" id="credentials-submit" class="w-full border border-[#B89B65] text-[#B89B65] px-6 py-3 rounded-sm font-medium hover:bg-[#B89B65] hover:text-[#080808] transition-colors">
-          Sign in
+      <div class="relative z-10 space-y-6">
+        <button id="google-signin" class="w-full flex items-center justify-center gap-3 bg-[#F9F9F6] text-[#080808] px-6 py-3 rounded-sm font-medium text-sm tracking-wide hover:bg-white transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+          Sign in with Google
         </button>
-      </form>
 
-      <div class="text-center">
-        <a href="/admin/forgot-password" class="text-xs text-[#F9F9F6]/50 hover:text-[#F9F9F6] underline">Forgot password?</a>
+        <div class="flex items-center gap-3 text-[#F9F9F6]/40 text-xs uppercase tracking-[0.2em]">
+          <div class="flex-1 border-t border-[#4A4A4A]"></div>
+          <span>or</span>
+          <div class="flex-1 border-t border-[#4A4A4A]"></div>
+        </div>
+
+        <form id="credentials-form" class="space-y-5">
+          <div>
+            <label class="block text-xs tracking-[0.2em] uppercase text-[#F9F9F6]/60 mb-2">Email</label>
+            <input type="email" name="email" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-2 focus:outline-none focus:border-[#B89B65] transition-colors text-sm placeholder-[#F9F9F6]/40" />
+          </div>
+          <div>
+            <label class="block text-xs tracking-[0.2em] uppercase text-[#F9F9F6]/60 mb-2">Password</label>
+            <input type="password" name="password" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-2 focus:outline-none focus:border-[#B89B65] transition-colors text-sm placeholder-[#F9F9F6]/40" />
+          </div>
+          <button type="submit" id="credentials-submit" class="w-full border border-[#B89B65] text-[#B89B65] px-6 py-3 text-sm tracking-[0.2em] uppercase font-medium hover:bg-[#B89B65] hover:text-[#080808] transition-colors">
+            Sign in
+          </button>
+        </form>
+
+        <div class="text-center pt-1">
+          <a href="/admin/forgot-password" class="text-xs text-[#F9F9F6]/50 hover:text-[#B89B65] transition-colors underline underline-offset-2">Forgot password?</a>
+        </div>
+
+        <p id="signin-error" class="text-red-400 text-sm text-center hidden pt-1">Sign-in failed — check your credentials or account authorization.</p>
       </div>
     </div>
-
-    <p id="signin-error" class="text-red-400 text-sm text-center hidden">Sign-in failed — check your credentials or account authorization.</p>
   </div>
 
   <script>
