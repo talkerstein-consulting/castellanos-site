@@ -191,7 +191,7 @@ import Layout from '../layouts/Layout.astro';
 
 <!-- Guestlist / Waitlist Section -->
 <section id="join" class="py-24 md:py-32 bg-[#080808] border-t border-[#4A4A4A]">
-    <div class="max-w-[50rem] mx-auto px-6 md:px-12">
+    <div class="max-w-[75rem] mx-auto px-6 md:px-12">
 
         <div class="text-center mb-16 md:mb-20 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
             <h2 class="font-instrument-serif text-5xl md:text-6xl text-[#F9F9F6] tracking-wide mb-6">Join the Inner Circle</h2>
@@ -200,7 +200,13 @@ import Layout from '../layouts/Layout.astro';
             </p>
         </div>
 
-        <div class="bg-[#080808] p-8 md:p-16 border-editorial relative scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+        <div class="grid grid-cols-1 lg:grid-cols-2 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+
+            <div class="relative min-h-[320px] lg:min-h-full">
+                <img src="/media/tableside-fish-service.webp" alt="" class="absolute inset-0 w-full h-full object-cover" />
+            </div>
+
+            <div class="bg-[#080808] p-8 md:p-16 border-editorial relative">
 
             <!-- Success Message -->
             <div id="success-msg" class="text-center py-16 hidden animate-fade-in">
@@ -237,6 +243,7 @@ import Layout from '../layouts/Layout.astro';
                 </div>
             </form>
 
+            </div>
         </div>
     </div>
 </section>

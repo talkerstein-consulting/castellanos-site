@@ -74,89 +74,86 @@ import Layout from '../layouts/Layout.astro';
 </header>
 
 <main class="py-24 md:py-32 bg-[#080808]">
-    <div class="max-w-[90rem] mx-auto px-6 md:px-12">
+    <div class="max-w-[80rem] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24">
 
-        <!-- Image + Form split: left column is a plain, caption-free photo matched to the form's height -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 border border-[#4A4A4A] mb-20 md:mb-28 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
-            <div class="relative min-h-[320px] lg:min-h-full">
-                <img src="/media/stills/clip-3-still.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
-            </div>
-
-            <div class="bg-[#0A0A0A] p-8 md:p-14 relative">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-[#B89B65]/5 rounded-bl-full -z-10"></div>
-
-                <div id="contact-success-msg" class="text-center py-24 hidden animate-fade-in">
-                    <span class="font-instrument-serif italic text-4xl md:text-5xl text-[#B89B65] mb-6 block">Message Received.</span>
-                    <p class="font-instrument-sans font-light text-lg text-[#F9F9F6]/90 max-w-md mx-auto leading-relaxed">
-                        Thank you for reaching out. A member of the Castellano's team will be in touch with you shortly.
-                    </p>
-                </div>
-
-                <form id="contact-form" class="space-y-10 relative z-10">
-                    <h3 class="font-instrument-serif italic text-4xl md:text-5xl text-[#B89B65] mb-8 border-b border-[#4A4A4A] pb-4">Send a Message</h3>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-                        <div class="relative group md:col-span-2">
-                            <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Full Name</label>
-                            <input type="text" name="full_name" placeholder="Enter your full name" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
-                        </div>
-
-                        <div class="relative group md:col-span-2">
-                            <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Email Address</label>
-                            <input type="email" name="email" placeholder="Enter your email address" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
-                        </div>
-
-                        <div class="relative group md:col-span-2">
-                            <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Phone Number</label>
-                            <input type="tel" name="phone" placeholder="Enter your phone number" class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
-                        </div>
-
-                        <div class="relative group md:col-span-2">
-                            <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Message</label>
-                            <textarea name="message" rows="4" required placeholder="How can we help you?" class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50 resize-none"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 pt-4 text-left">
-                        <input type="checkbox" id="marketing_accept_contact" name="marketing_accept" required class="mt-1 flex-shrink-0">
-                        <label for="marketing_accept_contact" class="font-instrument-sans font-light text-sm text-[#F9F9F6]/70 cursor-pointer leading-relaxed">
-                            I consent to submit my details and be contacted for marketing, exclusive event invitations, and promotional offers.
-                        </label>
-                    </div>
-
-                    <div class="pt-6 flex flex-col items-start space-y-4">
-                        <button id="contact-submit-btn" type="submit" class="w-full md:w-auto !bg-transparent hover:!bg-[#B89B65] border border-[#B89B65] !text-[#B89B65] hover:!text-[#080808] px-10 py-4 text-base font-medium tracking-[0.25em] uppercase transition-all duration-500 outline-none shadow-none font-instrument-sans">
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Get in Touch / Location / Inquiries strip -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+        <div class="flex flex-col justify-center space-y-16 animate-fade-in" style="animation-delay: 0.2s;">
 
             <div>
-                <h3 class="font-instrument-serif text-3xl md:text-4xl text-[#F9F9F6] mb-4">Get in Touch</h3>
-                <p class="text-[#F9F9F6]/90 font-instrument-sans font-light text-lg leading-relaxed">
+                <h3 class="font-instrument-serif text-4xl md:text-5xl text-[#F9F9F6] mb-6">Get in Touch</h3>
+                <p class="text-[#F9F9F6]/90 font-instrument-sans font-light text-xl leading-relaxed max-w-md">
                     Whether you're looking to secure a reservation, inquire about a specific menu item, or join our exclusive guestlist, we're here to ensure your experience is nothing short of exceptional.
                 </p>
             </div>
 
-            <div>
-                <h3 class="font-instrument-serif text-3xl md:text-4xl text-[#F9F9F6] mb-4">Location</h3>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2879.467475355447!2d-79.55395122381283!3d43.79435134932029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b2f6fb39fbd03%3A0xc345da589f3238!2s3603%20Langstaff%20Rd%20%238%2C%20Woodbridge%2C%20ON%20L4L%209G7%2C%20Canada!5e0!3m2!1sen!2sus!4v1714421111111!5m2!1sen!2sus" width="100%" height="200" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="mb-6 border border-[#4A4A4A] filter grayscale opacity-80 hover:opacity-100 transition-opacity duration-500"></iframe>
-                <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-lg leading-relaxed">
-                    3603 Langstaff Rd, Unit 8<br>Woodbridge, ON L4L 9G7, CA
+            <div class="flex flex-col justify-center space-y-16 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+
+                <div>
+                    <h3 class="font-instrument-serif text-3xl md:text-4xl text-[#F9F9F6] mb-4">Location</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2879.467475355447!2d-79.55395122381283!3d43.79435134932029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b2f6fb39fbd03%3A0xc345da589f3238!2s3603%20Langstaff%20Rd%20%238%2C%20Woodbridge%2C%20ON%20L4L%209G7%2C%20Canada!5e0!3m2!1sen!2sus!4v1714421111111!5m2!1sen!2sus" width="100%" height="250" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="my-6 border border-[#4A4A4A] filter grayscale opacity-80 hover:opacity-100 transition-opacity duration-500"></iframe>
+                    <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-lg leading-relaxed">
+                        3603 Langstaff Rd, Unit 8<br>Woodbridge, ON L4L 9G7, CA
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.25em] uppercase mb-3">Inquiries</h4>
+                    <p class="text-[#F9F9F6] font-instrument-sans font-light text-xl leading-relaxed mb-1">
+                        <a href="mailto:info@castellanosristorante.ca" class="hover:text-[#B89B65] transition-colors duration-300">info@castellanosristorante.ca</a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bg-[#0A0A0A] p-8 md:p-14 border border-[#4A4A4A] relative scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-300">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#B89B65]/5 rounded-bl-full -z-10"></div>
+
+            <div id="contact-success-msg" class="text-center py-24 hidden animate-fade-in">
+                <span class="font-instrument-serif italic text-4xl md:text-5xl text-[#B89B65] mb-6 block">Message Received.</span>
+                <p class="font-instrument-sans font-light text-lg text-[#F9F9F6]/90 max-w-md mx-auto leading-relaxed">
+                    Thank you for reaching out. A member of the Castellano's team will be in touch with you shortly.
                 </p>
             </div>
 
-            <div>
-                <h4 class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.25em] uppercase mb-3">Inquiries</h4>
-                <p class="text-[#F9F9F6] font-instrument-sans font-light text-xl leading-relaxed mb-1">
-                    <a href="mailto:info@castellanosristorante.ca" class="hover:text-[#B89B65] transition-colors duration-300">info@castellanosristorante.ca</a>
-                </p>
-            </div>
+            <form id="contact-form" class="space-y-10 relative z-10">
+                <h3 class="font-instrument-serif italic text-4xl md:text-5xl text-[#B89B65] mb-8 border-b border-[#4A4A4A] pb-4">Send a Message</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Full Name</label>
+                        <input type="text" name="full_name" placeholder="Enter your full name" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
+                    </div>
+
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email address" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
+                    </div>
+
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Phone Number</label>
+                        <input type="tel" name="phone" placeholder="Enter your phone number" class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50">
+                    </div>
+
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase text-[#F9F9F6]/80 mb-2">Message</label>
+                        <textarea name="message" rows="4" required placeholder="How can we help you?" class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-lg placeholder-[#F9F9F6]/50 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 pt-4 text-left">
+                    <input type="checkbox" id="marketing_accept_contact" name="marketing_accept" required class="mt-1 flex-shrink-0">
+                    <label for="marketing_accept_contact" class="font-instrument-sans font-light text-sm text-[#F9F9F6]/70 cursor-pointer leading-relaxed">
+                        I consent to submit my details and be contacted for marketing, exclusive event invitations, and promotional offers.
+                    </label>
+                </div>
+
+                <div class="pt-6 flex flex-col items-start space-y-4">
+                    <button id="contact-submit-btn" type="submit" class="w-full md:w-auto !bg-transparent hover:!bg-[#B89B65] border border-[#B89B65] !text-[#B89B65] hover:!text-[#080808] px-10 py-4 text-base font-medium tracking-[0.25em] uppercase transition-all duration-500 outline-none shadow-none font-instrument-sans">
+                        Submit
+                    </button>
+                </div>
+            </form>
 
         </div>
     </div>
