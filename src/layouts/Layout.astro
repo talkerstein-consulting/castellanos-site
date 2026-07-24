@@ -1,0 +1,299 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Castellano's Ristorante — Vaughan, ON" } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Luxurious+Script&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Global Elementor Body Overrides */
+    body {
+        background-color: #080808 !important;
+        color: #F9F9F6 !important;
+        font-family: 'Instrument Sans', sans-serif !important;
+        overflow-x: hidden;
+    }
+    ::selection {
+        background-color: #B89B65;
+        color: #080808;
+    }
+
+    /* Typography Classes */
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    .font-instrument-serif { font-family: 'Instrument Serif', serif; }
+    .font-instrument-sans { font-family: 'Instrument Sans', sans-serif; }
+    .font-script { font-family: 'Luxurious Script', cursive; font-weight: 400; }
+
+    /* Custom Elements */
+    .border-editorial {
+        border: 1px solid #B89B65;
+        position: relative;
+    }
+    .border-editorial::after {
+        content: '';
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(184, 155, 101, 0.3);
+        pointer-events: none;
+    }
+
+    .bg-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    /* Anti-Elementor global resets */
+    button, a {
+        text-decoration: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-700 bg-transparent py-8">
+      <div id="nav-border" class="absolute bottom-0 left-0 w-full transition-opacity duration-700 text-[#4A4A4A] opacity-0">
+          <div class="border-b border-current"></div>
+      </div>
+      <div class="max-w-[90rem] mx-auto px-6 md:px-12 flex justify-between items-center relative z-10">
+
+          <!-- Mobile Left: Menu Toggle -->
+          <div class="lg:hidden flex items-center justify-start w-1/4">
+              <button id="menu-toggle" class="text-[#B89B65] outline-none focus:outline-none focus:ring-0 active:outline-none !bg-transparent border-none" style="-webkit-tap-highlight-color: transparent;">
+                  <i data-lucide="menu" id="menu-icon" stroke-width="1.5" class="w-8 h-8"></i>
+                  <i data-lucide="x" id="close-icon" stroke-width="1.5" class="w-8 h-8 hidden"></i>
+              </button>
+          </div>
+
+          <!-- Desktop Left Nav -->
+          <div class="hidden lg:flex items-center space-x-12 w-1/3">
+              <a href="/about" class="text-base font-medium tracking-[0.125em] uppercase text-[#F9F9F6] hover:!text-[#B89B65] transition-colors duration-500 drop-shadow-md whitespace-nowrap">About Us</a>
+              <a href="/menu" class="text-base font-medium tracking-[0.125em] uppercase text-[#F9F9F6] hover:!text-[#B89B65] transition-colors duration-500 drop-shadow-md whitespace-nowrap">Menu</a>
+          </div>
+
+          <!-- Center: Logo -->
+          <a href="/" class="flex flex-col items-center justify-center w-2/4 lg:w-1/3 text-center py-4">
+              <img src="/wp-content/uploads/2026/05/CR-new-logo-scaled.webp" alt="Castellanos Ristorante" class="!w-48 md:!w-64 lg:!w-80 !h-auto object-contain drop-shadow-md">
+          </a>
+
+          <!-- Desktop Right Nav -->
+          <div class="hidden lg:flex items-center justify-end space-x-12 w-1/3">
+              <a href="/events" class="text-base font-medium tracking-[0.125em] uppercase text-[#F9F9F6] hover:!text-[#B89B65] transition-colors duration-500 drop-shadow-md whitespace-nowrap">Events & Venue Rental</a>
+              <a href="/contact" class="text-base font-medium tracking-[0.125em] uppercase text-[#F9F9F6] hover:!text-[#B89B65] transition-colors duration-500 drop-shadow-md whitespace-nowrap">Contact</a>
+          </div>
+
+          <!-- Mobile Right: Empty (Removed Reserve Button) -->
+          <div class="lg:hidden flex items-center justify-end w-1/4">
+          </div>
+      </div>
+  </nav>
+
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 bg-[#080808] z-40 flex flex-col items-start justify-center px-8 md:px-16 transition-all duration-500 opacity-0 pointer-events-none lg:hidden">
+
+      <div class="flex flex-col items-start space-y-10 text-[#F9F9F6] text-2xl md:text-4xl font-instrument-sans font-medium tracking-[0.125em] uppercase z-10 relative">
+          <a href="/" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">Home</a>
+          <a href="/about" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">About Us</a>
+          <a href="/menu" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">Menu</a>
+          <a href="/events" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">Events & Venue Rental</a>
+          <a href="/contact" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors">Contact</a>
+          <a href="https://www.opentable.ca/r/castellanos-ristorante-reservations-vaughan?restref=1503748&lang=en-CA&ot_source=Restaurant%20website" target="_blank" rel="noopener noreferrer" class="mobile-link text-[#F9F9F6] hover:!text-[#B89B65] transition-colors pt-4">Reservations</a>
+      </div>
+  </div>
+
+  <slot />
+
+  <!-- Footer -->
+  <footer class="bg-[#0A0A0A] text-[#F9F9F6] font-instrument-sans pt-12 md:pt-16 pb-12 border-t border-[#4A4A4A]">
+      <div class="max-w-[90rem] mx-auto px-6 md:px-12 flex flex-col items-center">
+
+          <div class="mb-16 text-center">
+              <img src="/wp-content/uploads/2026/05/CR-new-logo-scaled.webp" alt="Castellanos Ristorante Logo" class="w-64 md:w-80 lg:w-96 h-auto object-contain mx-auto">
+              <div class="mt-8 flex justify-center">
+                  <a href="https://www.opentable.ca/r/castellanos-ristorante-reservations-vaughan?restref=1503748&lang=en-CA&ot_source=Restaurant%20website" target="_blank" rel="noopener noreferrer" class="inline-block border border-[#B89B65] text-[#B89B65] hover:bg-[#B89B65] hover:text-[#080808] px-10 py-3 text-sm tracking-[0.25em] uppercase transition-colors font-instrument-sans duration-500 outline-none">
+                      Reserve Now
+                  </a>
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-4 lg:gap-8 mb-10 md:mb-24 w-full items-start">
+
+              <div class="text-center md:text-left flex flex-col items-center md:items-start">
+                  <h4 class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.25em] uppercase mb-6">Location</h4>
+                  <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed mb-4">
+                      3603 Langstaff Rd, Unit 8 Woodbridge, <br>ON L4L 9G7, CA
+                  </p>
+              </div>
+
+              <div class="text-center flex flex-col items-center">
+                  <h4 class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.25em] uppercase mb-6">Hours</h4>
+                  <ul class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed space-y-4">
+                      <li>
+                          <span class="block mb-1 text-[#F9F9F6]">Tues &ndash; Sat</span>
+                          <span class="block text-[#F9F9F6]/70">11:00 AM &ndash; 3:00 PM (Lunch)</span>
+                          <span class="block text-[#F9F9F6]/70">5:00 PM &ndash; 10:00 PM (Dinner)</span>
+                      </li>
+                      <li>
+                          <span class="block mb-1 text-[#F9F9F6]">Sun &amp; Mon</span>
+                          <span class="block text-[#F9F9F6]/70 text-sm tracking-widest uppercase mt-1">Closed</span>
+                      </li>
+                  </ul>
+              </div>
+
+              <div class="text-center md:text-right flex flex-col items-center md:items-end">
+                  <h4 class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.25em] uppercase mb-6">Inquiries</h4>
+                  <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed mb-2">
+                      <a href="mailto:info@castellanosristorante.ca" class="hover:!text-[#B89B65] transition-colors">info@castellanosristorante.ca</a>
+                  </p>
+                  <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base leading-relaxed mb-4">
+                      <a href="tel:9052651111" class="hover:!text-[#B89B65] transition-colors">905-265-1111</a>
+                  </p>
+                  <div class="flex justify-center md:justify-end space-x-6 mt-6">
+                      <a href="#" class="text-[#F9F9F6]/90 hover:!text-[#B89B65] transition-colors"><i data-lucide="instagram" stroke-width="1.5" class="w-8 h-8"></i></a>
+                      <a href="#" class="text-[#F9F9F6]/90 hover:!text-[#B89B65] transition-colors"><i data-lucide="facebook" stroke-width="1.5" class="w-8 h-8"></i></a>
+                  </div>
+              </div>
+          </div>
+
+          <div class="w-full pt-8 border-t border-[#4A4A4A] flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4 text-[10px] lg:text-xs tracking-[0.15em] lg:tracking-[0.2em] text-[#F9F9F6]/80 font-instrument-sans uppercase">
+
+              <div class="order-3 md:order-1 flex-1 flex justify-center md:justify-start w-full text-center md:text-left">
+                  <p>&copy; <span id="year">2026</span> Castellano's Ristorante</p>
+              </div>
+
+              <div class="order-2 md:order-2 flex-shrink-0 flex justify-center items-center px-4">
+                  <a href="https://talkerstein.com" target="_blank" rel="noopener noreferrer" class="opacity-80 hover:opacity-100 transition-opacity block w-[220px] md:w-[265px] lg:w-[330px]">
+                      <img src="/wp-content/uploads/2026/03/TCG-Logo-XS-Horizontal.svg" alt="Talkerstein" class="w-full h-auto object-contain">
+                  </a>
+              </div>
+
+              <div class="order-1 md:order-3 flex-1 flex justify-center md:justify-end w-full text-center md:text-right">
+                  <a href="/privacy-policy" class="hover:!text-[#B89B65] transition-colors whitespace-nowrap">Privacy Policy</a>
+              </div>
+
+          </div>
+
+      </div>
+  </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+      // --- Active Link Logic ---
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('#navbar a, #mobile-menu a');
+
+      navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (!href) return;
+
+          const linkPath = href.split('?')[0].replace(/\/$/, '');
+          const activePath = currentPath.split('?')[0].replace(/\/$/, '');
+
+          let isActive = false;
+          if (linkPath === '' && activePath === '') {
+              isActive = true;
+          } else if (linkPath !== '' && activePath.endsWith(linkPath)) {
+              isActive = true;
+          }
+
+          if (isActive && !link.querySelector('img') && !link.classList.contains('border')) {
+              link.classList.remove('text-[#F9F9F6]');
+              link.classList.add('!text-[#B89B65]');
+          }
+      });
+
+      // --- Scroll Logic for Sticky Nav ---
+      const nav = document.getElementById('navbar');
+      const navBorder = document.getElementById('nav-border');
+
+      window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+              nav.classList.add('bg-[#080808]/95', 'backdrop-blur-md', 'py-4');
+              nav.classList.remove('bg-transparent', 'py-8');
+              if(navBorder) {
+                  navBorder.classList.add('opacity-100');
+                  navBorder.classList.remove('opacity-0');
+              }
+          } else {
+              nav.classList.add('bg-transparent', 'py-8');
+              nav.classList.remove('bg-[#080808]/95', 'backdrop-blur-md', 'py-4');
+              if(navBorder) {
+                  navBorder.classList.add('opacity-0');
+                  navBorder.classList.remove('opacity-100');
+              }
+          }
+      });
+
+      // --- Mobile Menu Logic ---
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+      let isMenuOpen = false;
+
+      function toggleMenu() {
+          isMenuOpen = !isMenuOpen;
+          if (isMenuOpen) {
+              mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+              mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+              menuIcon.classList.add('hidden');
+              closeIcon.classList.remove('hidden');
+          } else {
+              mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+              mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+              menuIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+          }
+      }
+
+      if(menuToggle) {
+          menuToggle.addEventListener('click', toggleMenu);
+      }
+
+      mobileLinks.forEach(link => {
+          link.addEventListener('click', toggleMenu);
+      });
+
+      // Initialize Lucide Icons globally
+      if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+      } else {
+          setTimeout(() => { if(typeof lucide !== 'undefined') lucide.createIcons(); }, 500);
+      }
+
+      // Dynamic Year
+      const yearEl = document.getElementById('year');
+      if(yearEl) {
+          yearEl.textContent = new Date().getFullYear();
+      }
+  });
+  </script>
+</body>
+</html>

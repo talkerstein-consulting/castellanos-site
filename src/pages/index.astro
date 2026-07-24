@@ -1,0 +1,325 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Castellano's Ristorante | Vaughan, ON">
+
+<!-- Page Specific Form Styles -->
+<style>
+    /* Anti-Elementor Form Overrides: Forces the underline style */
+    #subscribe-form input:not([type="checkbox"]),
+    #subscribe-form select,
+    #subscribe-form textarea {
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: 1px solid #4A4A4A !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #subscribe-form input:not([type="checkbox"]):focus,
+    #subscribe-form select:focus,
+    #subscribe-form textarea:focus {
+        border-bottom-color: #B89B65 !important;
+        outline: none !important;
+    }
+
+    /* Custom Checkbox Styling */
+    #subscribe-form input[type="checkbox"] {
+        appearance: none;
+        background-color: transparent;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 1px solid #4A4A4A;
+        border-radius: 0.15em;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+    }
+
+    #subscribe-form input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #B89B65;
+        background-color: #B89B65;
+        transform-origin: center;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    #subscribe-form input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+
+    #subscribe-form input[type="checkbox"]:checked {
+        border-color: #B89B65;
+    }
+</style>
+
+<!-- Cinematic Video Hero Section -->
+<header class="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 z-0 bg-[#080808]">
+        <video
+            class="w-full h-full object-cover opacity-60"
+            src="/media/hero-video.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+        ></video>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/30 to-[#080808]/60"></div>
+    </div>
+
+    <div class="relative z-10 px-6 w-full max-w-[90rem] mx-auto flex flex-col items-center justify-center h-full pt-16 animate-fade-in">
+
+        <h1 class="font-instrument-serif text-6xl md:text-8xl lg:text-[8rem] text-[#F9F9F6] leading-none mb-0 relative z-10">
+            Simply, Smooth Evenings.
+        </h1>
+        <p class="font-script text-7xl md:text-9xl lg:text-[10rem] text-[#B89B65] leading-none -mt-3 md:-mt-8 lg:-mt-12 mb-10 relative z-20">
+            Only at Castellano's.
+        </p>
+        <p class="text-[#F9F9F6] font-instrument-sans font-light text-base md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+            The newest refined piano bar ristorante in Vaughan where service, atmosphere, and bespoke Italian flavor define the night.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 w-full max-w-2xl mx-auto">
+            <a href="https://www.opentable.ca/r/castellanos-ristorante-reservations-vaughan?restref=1503748&lang=en-CA&ot_source=Restaurant%20website" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto !bg-[#B89B65] border border-transparent !text-[#080808] hover:!bg-[#F9F9F6] hover:border-transparent hover:!text-[#080808] px-8 py-3 md:py-4 font-instrument-sans tracking-[0.2em] uppercase text-sm md:text-base transition-colors duration-500">
+                Reserve Your Evening
+            </a>
+            <a href="/contact" class="w-full sm:w-auto !bg-transparent border border-[#4A4A4A] !text-[#F9F9F6] hover:!border-[#B89B65] hover:!text-[#B89B65] px-8 py-3 md:py-4 font-instrument-sans tracking-[0.2em] uppercase text-sm md:text-base transition-colors duration-500">
+                Contact Us
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Vision / Atmosphere Section -->
+<section id="vision" class="py-24 md:py-32 bg-[#080808] relative">
+    <div class="max-w-[55rem] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+
+        <div class="space-y-10 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+            <div class="flex items-center justify-center space-x-4 md:space-x-6">
+                <div class="h-[1px] w-12 md:w-16 bg-[#4A4A4A]"></div>
+                <span class="font-playfair italic text-xl md:text-2xl tracking-widest text-[#B89B65]">The Vision</span>
+                <div class="h-[1px] w-12 md:w-16 bg-[#4A4A4A]"></div>
+            </div>
+
+            <h2 class="font-instrument-serif text-6xl md:text-8xl text-[#F9F9F6] leading-[1.1] tracking-tight">
+                An evening <br>
+                <span class="italic text-[#B89B65] pr-2">uncompromised.</span>
+            </h2>
+
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-xl leading-relaxed max-w-2xl mx-auto">
+                Rooted in authentic culinary excellence and surrounded by striking, moody design, Castellano's sets the perfect stage with the finer notes of an evening out. A space designed for those who prefer understated luxury, where conversations flow as smoothly as the wine.
+            </p>
+
+            <div class="pt-4">
+                <a href="https://www.opentable.ca/r/castellanos-ristorante-reservations-vaughan?restref=1503748&lang=en-CA&ot_source=Restaurant%20website" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-4 !text-[#B89B65] hover:!text-[#F9F9F6] transition-colors group pb-2 border-b border-[#B89B65]/30 hover:!border-[#F9F9F6]">
+                    <span class="font-instrument-sans text-sm md:text-base tracking-[0.25em] uppercase font-medium">Reserve Your Table</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-500"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Composed Interiors Section -->
+<section class="py-24 md:py-32 bg-[#080808] border-t border-[#4A4A4A]">
+    <div class="max-w-[80rem] mx-auto px-6 md:px-12 text-center">
+        <div class="mb-16 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+            <h2 class="font-instrument-serif text-5xl md:text-6xl text-[#F9F9F6] mb-6">Composed Interiors</h2>
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+                At Castellano's, everything looks, tastes, and feels exquisite. So your conversations will be too. A space designed for those who prefer understated luxury.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 max-w-5xl mx-auto gap-8 md:gap-12 text-center scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+            <div class="group cursor-pointer">
+                <div class="relative h-64 md:h-80 overflow-hidden rounded-sm mb-6 border border-[#4A4A4A]">
+                    <img src="/wp-content/uploads/2026/04/the-atmosphere.jpg" alt="The Atmosphere" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    <div class="absolute inset-0 bg-[#080808]/40 group-hover:bg-[#080808]/10 transition-colors duration-500"></div>
+                </div>
+                <h3 class="font-instrument-serif text-3xl text-[#F9F9F6] mb-2">The Atmosphere</h3>
+                <p class="text-sm md:text-base text-[#F9F9F6]/80 font-instrument-sans font-light">Italy, right here. Warm, composed, and understated.</p>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="relative h-64 md:h-80 overflow-hidden rounded-sm mb-6 border border-[#4A4A4A]">
+                    <img src="/wp-content/uploads/2026/03/Container-1.jpg" alt="The Pour" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    <div class="absolute inset-0 bg-[#080808]/40 group-hover:bg-[#080808]/10 transition-colors duration-500"></div>
+                </div>
+                <h3 class="font-instrument-serif text-3xl text-[#F9F9F6] mb-2">The Pour</h3>
+                <p class="text-sm md:text-base text-[#F9F9F6]/80 font-instrument-sans font-light">Curated selections to pace your evening.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Larger Gatherings Only -->
+<section id="gatherings" class="py-24 md:py-32 bg-[#0A0A0A] border-t border-[#4A4A4A]">
+    <div class="max-w-[70rem] mx-auto px-6 md:px-12 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+
+        <div class="relative p-10 md:p-24 flex flex-col items-center text-center overflow-hidden border border-[#4A4A4A] bg-[#111111] group transition-colors hover:border-[#B89B65]/30 z-0">
+            <div class="absolute inset-0 bg-noise opacity-40 pointer-events-none"></div>
+            <h4 class="font-instrument-sans text-[#B89B65] text-sm md:text-base tracking-[0.3em] uppercase mb-4">Scale</h4>
+            <h3 class="font-instrument-serif text-4xl md:text-6xl text-[#F9F9F6] mb-6">Your Large Gathering</h3>
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-lg mb-6 leading-relaxed max-w-2xl">
+                With a capacity of up to 140 guests, Castellano's accommodates larger parties without sacrificing atmosphere.
+            </p>
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-lg mb-12 italic leading-relaxed max-w-2xl">
+                The room maintains its composure, even at scale. Service remains attentive. The evening continues uninterrupted.
+            </p>
+            <p class="text-sm tracking-[0.25em] uppercase text-[#B89B65] font-instrument-sans mb-8">A destination for those who prefer to stay.</p>
+            <a href="/events" class="inline-block text-center w-auto !bg-transparent border border-[#4A4A4A] !text-[#F9F9F6] hover:!bg-transparent hover:!border-[#B89B65] hover:!text-[#B89B65] transition-colors duration-500 px-12 py-4 font-instrument-sans tracking-[0.25em] uppercase text-sm md:text-base outline-none shadow-none relative z-10">
+                Inquire For Group Events
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Guestlist / Waitlist Section -->
+<section id="join" class="py-24 md:py-32 bg-[#080808] border-t border-[#4A4A4A]">
+    <div class="max-w-[50rem] mx-auto px-6 md:px-12">
+
+        <div class="text-center mb-16 md:mb-20 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+            <h2 class="font-instrument-serif text-5xl md:text-6xl text-[#F9F9F6] tracking-wide mb-6">Join the Inner Circle</h2>
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base max-w-md mx-auto">
+                Sign up for exclusive updates, private tasting previews, and invitations to our opening weekend.
+            </p>
+        </div>
+
+        <div class="bg-[#080808] p-8 md:p-16 border-editorial relative scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+
+            <!-- Success Message -->
+            <div id="success-msg" class="text-center py-16 hidden animate-fade-in">
+                <span class="font-playfair italic text-5xl text-[#B89B65] mb-6 block">Welcome.</span>
+                <p class="font-instrument-sans font-light text-base tracking-widest uppercase text-[#F9F9F6]/90">You are on the list. Keep an eye on your inbox.</p>
+            </div>
+
+            <!-- Form -->
+            <form id="subscribe-form" class="space-y-10 relative z-10">
+                <input type="hidden" name="subject" value="New Inner Circle Registration - Castellano's">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-xs tracking-[0.3em] uppercase text-[#F9F9F6]/80 mb-2">Full Name</label>
+                        <input type="text" name="full_name" placeholder="Enter your full name" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-base placeholder-[#F9F9F6]/60">
+                    </div>
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-xs tracking-[0.3em] uppercase text-[#F9F9F6]/80 mb-2">Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-base placeholder-[#F9F9F6]/60">
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 pt-2 text-left">
+                    <input type="checkbox" id="marketing_accept" name="marketing_accept" required class="mt-1 flex-shrink-0">
+                    <label for="marketing_accept" class="font-instrument-sans font-light text-sm text-[#F9F9F6]/70 cursor-pointer leading-relaxed">
+                        I consent to submit my details and be contacted for marketing, exclusive event invitations, and promotional offers.
+                    </label>
+                </div>
+
+                <div class="pt-8 text-center">
+                    <button id="submit-btn" type="submit" class="w-full md:w-auto !bg-transparent hover:!bg-[#B89B65] border border-[#B89B65] !text-[#B89B65] hover:!text-[#080808] px-16 py-4 text-sm font-medium tracking-[0.25em] uppercase transition-all duration-500 outline-none shadow-none">
+                        Request Access
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<!-- Full Width Atmosphere Image Section -->
+<section class="w-full min-h-[45vh] md:min-h-[55vh] flex flex-col items-center justify-center relative overflow-hidden group border-t border-[#4A4A4A] py-20">
+    <div class="absolute inset-0 bg-cover bg-center grayscale opacity-40 transition-transform duration-1000 group-hover:scale-105" style="background-image: url('/wp-content/uploads/2026/04/the-atmosphere.jpg');"></div>
+    <div class="absolute inset-0 bg-noise opacity-30"></div>
+    <div class="absolute inset-0 bg-[#080808]/60 group-hover:bg-[#080808]/50 transition-colors duration-500"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/40"></div>
+
+    <div class="relative z-10 px-6 max-w-4xl mx-auto text-center scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+        <span class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.3em] uppercase mb-6 block">The Experience Awaits</span>
+        <h2 class="font-instrument-serif text-5xl md:text-7xl text-[#F9F9F6] mb-6">We can't wait to host you.</h2>
+        <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Prepare for an evening where every detail is meticulously curated. We look forward to pouring your glass and welcoming you to our table.
+        </p>
+    </div>
+</section>
+
+<!-- Load Google reCAPTCHA v3 API -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // 1. Scroll Animation Logic
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-0', 'translate-y-10');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-item').forEach(el => observer.observe(el));
+
+
+    // 2. Form Submit Logic connected to Google Sheets
+    const form = document.getElementById('subscribe-form');
+    const successMsg = document.getElementById('success-msg');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Securing Access...';
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Front-End CAPTCHA v3 Execution
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt', {action: 'submit'}).then(function(token) {
+
+                    const formData = new FormData(form);
+
+                    formData.append("form_type", "Inner Circle");
+                    formData.append("g-recaptcha-response", token);
+                    formData.append("page_url", window.location.href);
+
+                    fetch('https://script.google.com/macros/s/AKfycbx-GKP3xvbx8QJCmBBNI2Wcqy1Ah4fWkO3zoSrys5tNm6K_nuQg_c2-gsdsXmn1Up2vfw/exec', {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    }).then(() => {
+                        form.classList.add('hidden');
+                        successMsg.classList.remove('hidden');
+                    }).catch((error) => {
+                        console.error('Error:', error);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Request Access';
+                        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                });
+            });
+        });
+    }
+});
+</script>
+
+</Layout>

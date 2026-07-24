@@ -1,0 +1,263 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="About Us | Castellano's Ristorante">
+
+<style>
+    #subscribe-form input:not([type="checkbox"]),
+    #subscribe-form select,
+    #subscribe-form textarea {
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: 1px solid #4A4A4A !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    #subscribe-form input:not([type="checkbox"]):focus,
+    #subscribe-form select:focus,
+    #subscribe-form textarea:focus {
+        border-bottom-color: #B89B65 !important;
+        outline: none !important;
+    }
+    #subscribe-form input[type="checkbox"] {
+        appearance: none;
+        background-color: transparent;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 1px solid #4A4A4A;
+        border-radius: 0.15em;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+    }
+    #subscribe-form input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #B89B65;
+        background-color: #B89B65;
+        transform-origin: center;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+    #subscribe-form input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+    #subscribe-form input[type="checkbox"]:checked {
+        border-color: #B89B65;
+    }
+</style>
+
+<header class="relative h-[55vh] md:h-[65vh] flex flex-col items-center justify-center text-center overflow-hidden border-b border-[#4A4A4A]">
+    <div class="absolute inset-0 z-0 bg-[#080808]">
+        <img src="/wp-content/uploads/2026/04/the-atmosphere.jpg" alt="About Background" class="w-full h-full object-cover opacity-20 scale-105 filter grayscale" />
+        <div class="absolute inset-0 bg-noise opacity-50"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/80 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 px-6 w-full max-w-[90rem] mx-auto flex flex-col items-center justify-center h-full pt-24 animate-fade-in">
+        <span class="font-script text-6xl md:text-8xl text-[#B89B65] leading-none block mb-4">Discover</span>
+        <h1 class="font-instrument-serif text-6xl md:text-9xl text-[#F9F9F6] leading-none mb-6 tracking-tighter uppercase">Our Story</h1>
+        <div class="w-12 h-[1px] bg-[#B89B65] mx-auto mb-8"></div>
+        <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base tracking-[0.2em] uppercase max-w-lg">
+            A legacy of authentic Italian taste.
+        </p>
+    </div>
+</header>
+
+<section class="py-24 md:py-32 bg-[#080808] relative">
+    <div class="max-w-[85rem] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-start">
+
+        <div class="order-2 lg:order-1 relative group lg:sticky lg:top-40">
+            <div class="absolute -inset-4 border border-[#4A4A4A] group-hover:border-[#B89B65]/30 transition-colors duration-1000"></div>
+            <img src="/wp-content/uploads/2026/03/Container-1.jpg" alt="Castellano's Vibe" class="w-full h-auto object-cover opacity-90 transition-all duration-1000 group-hover:opacity-100">
+        </div>
+
+        <div class="order-1 lg:order-2 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="flex flex-col justify-center mb-8 md:mb-12 pt-4 md:pt-10">
+                <span class="font-script text-6xl md:text-8xl text-[#B89B65] leading-none block mb-4">Castellano's Ristorante</span>
+                <h2 class="font-instrument-serif text-5xl md:text-7xl text-[#F9F9F6] leading-[1.1] tracking-tight">
+                    The pinnacle of modern <br>Italian luxury.
+                </h2>
+            </div>
+
+            <div class="text-[#F9F9F6] font-instrument-sans font-light text-base md:text-lg leading-relaxed space-y-8 pb-32">
+                <p class="scroll-fade opacity-20 translate-y-10 transition-all duration-700 ease-out">
+                    At Castellano's, we embody the pinnacle of modern Italian luxury where exceptional cuisine, rare ingredients, and uncompromising precision define every experience.
+                </p>
+                <p class="scroll-fade opacity-20 translate-y-10 transition-all duration-700 ease-out">
+                    Each dish reflects the artistry of Executive Chef Luigi Maresca, blending heritage and innovation with effortless refinement.
+                </p>
+                <p class="scroll-fade opacity-20 translate-y-10 transition-all duration-700 ease-out">
+                    Our specialty cocktail program showcases artistry and balance, while our extensive world-class wine list is curated to complement and elevate every course. Together, these elements create a seamless expression of sophistication and indulgence.
+                </p>
+                <p class="scroll-fade opacity-20 translate-y-10 transition-all duration-700 ease-out">
+                    Every detail is intentionally designed to deliver an atmosphere that is exclusive, immersive, and undeniably exquisite.
+                </p>
+            </div>
+
+            <div class="pt-16 border-t border-[#4A4A4A]">
+                <p class="font-instrument-serif italic text-4xl md:text-5xl text-[#B89B65]">Salute e Buon Appetito!</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="join" class="py-24 md:py-32 bg-[#0A0A0A] border-t border-[#4A4A4A]">
+    <div class="max-w-[50rem] mx-auto px-6 md:px-12">
+
+        <div class="text-center mb-16 md:mb-20 scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+            <h2 class="font-instrument-serif text-5xl md:text-6xl text-[#F9F9F6] tracking-wide mb-6">Join the Inner Circle</h2>
+            <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base max-w-md mx-auto">
+                Sign up for exclusive updates, private tasting previews, and invitations to our opening weekend.
+            </p>
+        </div>
+
+        <div class="bg-[#080808] p-8 md:p-16 border-editorial relative scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out delay-200">
+
+            <div id="success-msg" class="text-center py-16 hidden animate-fade-in">
+                <span class="font-instrument-serif italic text-5xl text-[#B89B65] mb-6 block">Welcome.</span>
+                <p class="font-instrument-sans font-light text-base tracking-widest uppercase text-[#F9F9F6]/90">You are on the list. Keep an eye on your inbox.</p>
+            </div>
+
+            <form id="subscribe-form" class="space-y-10 relative z-10">
+                <input type="hidden" name="subject" value="New Inner Circle Registration - Castellano's">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-xs tracking-[0.3em] uppercase text-[#F9F9F6]/80 mb-2">Full Name</label>
+                        <input type="text" name="full_name" placeholder="Enter your full name" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-base placeholder-[#F9F9F6]/60">
+                    </div>
+                    <div class="relative group md:col-span-2">
+                        <label class="block font-instrument-sans text-xs tracking-[0.3em] uppercase text-[#F9F9F6]/80 mb-2">Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-3 focus:outline-none focus:border-[#B89B65] transition-colors font-instrument-sans text-base placeholder-[#F9F9F6]/60">
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 pt-2 text-left">
+                    <input type="checkbox" id="marketing_accept_about" name="marketing_accept" required class="mt-1 flex-shrink-0">
+                    <label for="marketing_accept_about" class="font-instrument-sans font-light text-sm text-[#F9F9F6]/70 cursor-pointer leading-relaxed">
+                        I consent to submit my details and be contacted for marketing, exclusive event invitations, and promotional offers.
+                    </label>
+                </div>
+
+                <div class="pt-8 text-center">
+                    <button id="submit-btn" type="submit" class="w-full md:w-auto !bg-transparent hover:!bg-[#B89B65] border border-[#B89B65] !text-[#B89B65] hover:!text-[#080808] px-16 py-4 text-sm font-medium tracking-[0.25em] uppercase transition-all duration-500 outline-none shadow-none font-instrument-sans">
+                        Request Access
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<section class="w-full min-h-[45vh] md:min-h-[55vh] flex flex-col items-center justify-center relative overflow-hidden group border-t border-[#4A4A4A] py-20">
+    <div class="absolute inset-0 bg-cover bg-center grayscale opacity-40 transition-transform duration-1000 group-hover:scale-105" style="background-image: url('/wp-content/uploads/2026/04/the-atmosphere.jpg');"></div>
+    <div class="absolute inset-0 bg-noise opacity-30"></div>
+    <div class="absolute inset-0 bg-[#080808]/60 group-hover:bg-[#080808]/50 transition-colors duration-500"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/40"></div>
+
+    <div class="relative z-10 px-6 max-w-4xl mx-auto text-center scroll-item opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+        <span class="font-instrument-sans text-[#B89B65] text-sm tracking-[0.3em] uppercase mb-6 block">The Experience Awaits</span>
+        <h2 class="font-instrument-serif text-5xl md:text-7xl text-[#F9F9F6] mb-6">We can't wait to host you.</h2>
+        <p class="text-[#F9F9F6]/80 font-instrument-sans font-light text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Prepare for an evening where every detail is meticulously curated. We look forward to pouring your glass and welcoming you to our table.
+        </p>
+    </div>
+</section>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('subscribe-form');
+    const successMsg = document.getElementById('success-msg');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Securing Access...';
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt', {action: 'submit'}).then(function(token) {
+
+                    const formData = new FormData(form);
+
+                    formData.append("form_type", "Inner Circle");
+                    formData.append("g-recaptcha-response", token);
+                    formData.append("page_url", window.location.href);
+
+                    fetch('https://script.google.com/macros/s/AKfycbx-GKP3xvbx8QJCmBBNI2Wcqy1Ah4fWkO3zoSrys5tNm6K_nuQg_c2-gsdsXmn1Up2vfw/exec', {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    }).then(() => {
+                        form.classList.add('hidden');
+                        successMsg.classList.remove('hidden');
+                    }).catch((error) => {
+                        console.error('Error:', error);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Request Access';
+                        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                });
+            });
+        });
+    }
+
+    const generalObserverOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    };
+
+    const generalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-0', 'translate-y-10');
+            }
+        });
+    }, generalObserverOptions);
+
+    document.querySelectorAll('.scroll-item').forEach(el => generalObserver.observe(el));
+
+    const paragraphObserverOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.4
+    };
+
+    const paragraphObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-20', 'translate-y-10');
+            } else {
+                entry.target.classList.remove('opacity-100', 'translate-y-0');
+                entry.target.classList.add('opacity-20', 'translate-y-10');
+            }
+        });
+    }, paragraphObserverOptions);
+
+    document.querySelectorAll('.scroll-fade').forEach(el => {
+        paragraphObserver.observe(el);
+    });
+});
+</script>
+
+</Layout>
