@@ -20,10 +20,11 @@ if (session?.user) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
       background-color: #080808;
       color: #F9F9F6;
       font-family: 'Instrument Sans', sans-serif;
@@ -31,68 +32,164 @@ if (session?.user) {
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 3rem 1rem;
     }
-    .font-playfair { font-family: 'Playfair Display', serif; }
-    .font-instrument-serif { font-family: 'Instrument Serif', serif; }
-
-    .border-editorial {
+    .wrap { width: 100%; max-width: 28rem; }
+    .logo-block { text-align: center; margin-bottom: 2.5rem; }
+    .logo-block img {
+      width: 11rem;
+      max-width: 80%;
+      margin: 0 auto 1.5rem;
+      display: block;
+      object-fit: contain;
+    }
+    .eyebrow {
+      color: #B89B65;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .card {
+      background: #0A0A0A;
       border: 1px solid #B89B65;
       position: relative;
+      padding: 2.5rem 2rem;
     }
-    .border-editorial::after {
+    .card::after {
       content: '';
       position: absolute;
       inset: 3px;
       border: 1px solid rgba(184, 155, 101, 0.3);
       pointer-events: none;
     }
-    .bg-noise {
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
     }
+    .card-inner { position: relative; z-index: 1; }
+    .card-inner > * + * { margin-top: 1.5rem; }
+
+    .google-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: #F9F9F6;
+      color: #080808;
+      border: none;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .google-btn:hover { background: #ffffff; }
+    .google-btn svg { width: 1.25rem; height: 1.25rem; }
+
+    .divider { display: flex; align-items: center; gap: 0.75rem; color: rgba(249, 249, 246, 0.4); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; }
+    .divider .line { flex: 1; border-top: 1px solid #4A4A4A; }
+
+    form > * + * { margin-top: 1.25rem; }
+    label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(249, 249, 246, 0.6);
+      margin-bottom: 0.5rem;
+    }
+    input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #4A4A4A;
+      color: #F9F9F6;
+      padding: 0.5rem 0;
+      font-size: 0.875rem;
+      font-family: inherit;
+    }
+    input::placeholder { color: rgba(249, 249, 246, 0.4); }
+    input:focus { outline: none; border-bottom-color: #B89B65; }
+
+    .submit-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #B89B65;
+      color: #B89B65;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      margin-top: 1.5rem;
+    }
+    .submit-btn:hover { background: #B89B65; color: #080808; }
+
+    .forgot-row { text-align: center; padding-top: 0.25rem; }
+    .forgot-row a, .back-link a {
+      font-size: 0.75rem;
+      color: rgba(249, 249, 246, 0.5);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.15s ease;
+    }
+    .forgot-row a:hover, .back-link a:hover { color: #B89B65; }
+
+    .error-msg {
+      color: #f87171;
+      font-size: 0.875rem;
+      text-align: center;
+      padding-top: 0.25rem;
+    }
+    .hidden { display: none; }
   </style>
 </head>
-<body class="px-4 py-12">
-  <div class="w-full max-w-md">
+<body>
+  <div class="wrap">
 
-    <div class="text-center mb-10">
-      <img src="/wp-content/uploads/2026/05/CR-new-logo-scaled.webp" alt="Castellano's Ristorante" class="w-40 md:w-48 mx-auto object-contain mb-6" />
-      <p class="text-[#B89B65] text-xs tracking-[0.3em] uppercase font-instrument-sans">Admin Portal</p>
+    <div class="logo-block">
+      <img src="/wp-content/uploads/2026/05/CR-new-logo-scaled.webp" alt="Castellano's Ristorante" />
+      <p class="eyebrow">Admin Portal</p>
     </div>
 
-    <div class="bg-[#0A0A0A] border-editorial relative p-8 md:p-10">
-      <div class="absolute inset-0 bg-noise opacity-40 pointer-events-none"></div>
-
-      <div class="relative z-10 space-y-6">
-        <button id="google-signin" class="w-full flex items-center justify-center gap-3 bg-[#F9F9F6] text-[#080808] px-6 py-3 rounded-sm font-medium text-sm tracking-wide hover:bg-white transition-colors">
-          <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+    <div class="card">
+      <div class="card-inner">
+        <button id="google-signin" class="google-btn">
+          <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
           Sign in with Google
         </button>
 
-        <div class="flex items-center gap-3 text-[#F9F9F6]/40 text-xs uppercase tracking-[0.2em]">
-          <div class="flex-1 border-t border-[#4A4A4A]"></div>
+        <div class="divider">
+          <div class="line"></div>
           <span>or</span>
-          <div class="flex-1 border-t border-[#4A4A4A]"></div>
+          <div class="line"></div>
         </div>
 
-        <form id="credentials-form" class="space-y-5">
+        <form id="credentials-form">
           <div>
-            <label class="block text-xs tracking-[0.2em] uppercase text-[#F9F9F6]/60 mb-2">Email</label>
-            <input type="email" name="email" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-2 focus:outline-none focus:border-[#B89B65] transition-colors text-sm placeholder-[#F9F9F6]/40" />
+            <label>Email</label>
+            <input type="email" name="email" required />
           </div>
           <div>
-            <label class="block text-xs tracking-[0.2em] uppercase text-[#F9F9F6]/60 mb-2">Password</label>
-            <input type="password" name="password" required class="w-full bg-transparent border-b border-[#4A4A4A] text-[#F9F9F6] py-2 focus:outline-none focus:border-[#B89B65] transition-colors text-sm placeholder-[#F9F9F6]/40" />
+            <label>Password</label>
+            <input type="password" name="password" required />
           </div>
-          <button type="submit" id="credentials-submit" class="w-full border border-[#B89B65] text-[#B89B65] px-6 py-3 text-sm tracking-[0.2em] uppercase font-medium hover:bg-[#B89B65] hover:text-[#080808] transition-colors">
-            Sign in
-          </button>
+          <button type="submit" id="credentials-submit" class="submit-btn">Sign in</button>
         </form>
 
-        <div class="text-center pt-1">
-          <a href="/admin/forgot-password" class="text-xs text-[#F9F9F6]/50 hover:text-[#B89B65] transition-colors underline underline-offset-2">Forgot password?</a>
+        <div class="forgot-row">
+          <a href="/admin/forgot-password">Forgot password?</a>
         </div>
 
-        <p id="signin-error" class="text-red-400 text-sm text-center hidden pt-1">Sign-in failed — check your credentials or account authorization.</p>
+        <p id="signin-error" class="error-msg hidden">Sign-in failed — check your credentials or account authorization.</p>
       </div>
     </div>
   </div>
