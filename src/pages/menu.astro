@@ -54,7 +54,7 @@ import Layout from '../layouts/Layout.astro';
 
 <main class="w-full bg-[#080808]">
 
-    <div class="sticky top-[95px] md:top-[100px] lg:top-[105px] z-40 w-full bg-[#080808]/95 backdrop-blur-md border-t-0 border-b border-[#4A4A4A] transition-all duration-300">
+    <div id="menu-sticky-nav" class="sticky z-40 w-full bg-[#080808]/95 backdrop-blur-md border-t-0 border-b border-[#4A4A4A] transition-all duration-300" style="top: 105px;">
         <div class="max-w-[90rem] mx-auto px-6 md:px-12">
             <ul class="flex items-center justify-start md:justify-center space-x-8 md:space-x-12 overflow-x-auto py-4 hide-scrollbar font-instrument-sans text-sm md:text-base tracking-[0.2em] uppercase whitespace-nowrap">
                 <li><a href="#antipasti" class="menu-nav-link !text-[#B89B65] hover:!text-[#B89B65] focus:!text-[#B89B65] outline-none transition-colors">Insalate & Antipasti</a></li>
@@ -501,6 +501,20 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Keep the sticky menu nav pinned right below the real (animated) header height ---
+    const navbar = document.getElementById('navbar');
+    const menuStickyNav = document.getElementById('menu-sticky-nav');
+
+    function syncMenuNavOffset() {
+        if (navbar && menuStickyNav) {
+            menuStickyNav.style.top = `${navbar.getBoundingClientRect().height}px`;
+        }
+    }
+
+    syncMenuNavOffset();
+    window.addEventListener('scroll', syncMenuNavOffset, { passive: true });
+    window.addEventListener('resize', syncMenuNavOffset);
+
     const observerOptions = {
         root: null,
         rootMargin: '0px 0px -100px 0px',
