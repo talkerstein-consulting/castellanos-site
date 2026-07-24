@@ -265,7 +265,7 @@ import Layout from '../layouts/Layout.astro';
 </section>
 
 <!-- Load Google reCAPTCHA v3 API -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt"></script>
+<script is:inline src={`https://www.google.com/recaptcha/api.js?render=${import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}`}></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Front-End CAPTCHA v3 Execution
             grecaptcha.ready(function() {
-                grecaptcha.execute('6LdwXdMsAAAAAF9vC9oUT89qYboWtwIJB7qmQ8Nt', {action: 'submit'}).then(function(token) {
+                grecaptcha.execute(import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY, {action: 'submit'}).then(function(token) {
 
                     const formData = new FormData(form);
 
