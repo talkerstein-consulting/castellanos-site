@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout title="Events & Venue Rental | Castellano's Ristorante">
@@ -214,11 +215,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     formData.append("g-recaptcha-response", token);
                     formData.append("page_url", window.location.href);
 
-                    fetch('https://script.google.com/macros/s/AKfycbx-GKP3xvbx8QJCmBBNI2Wcqy1Ah4fWkO3zoSrys5tNm6K_nuQg_c2-gsdsXmn1Up2vfw/exec', {
+                    fetch('/api/submit-form', {
                         method: 'POST',
-                        mode: 'no-cors',
                         body: formData
-                    }).then(() => {
+                    }).then((res) => {
+                        if (!res.ok) throw new Error('Submission failed');
                         form.classList.add('hidden');
                         successMsg.classList.remove('hidden');
                     }).catch((error) => {
